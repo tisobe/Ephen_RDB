@@ -6,7 +6,7 @@
 #                                                                                                   #
 #           author: t. isobe (tisobe@cfa.harvard.edu)                                               #
 #                                                                                                   #
-#           last update: Mar 03, 2015                                                               #
+#           last update: Jan 04, 2016                                                               #
 #                                                                                                   #
 #####################################################################################################
 
@@ -147,14 +147,24 @@ def find_available_deph_data():
         cmd = 'ls /dsops/GOT/aux/DEPH.dir/DE' + ltyear + '*.EPH >  ' + zspace
         os.system(cmd)
         cmd = 'ls /dsops/GOT/aux/DEPH.dir/DE' + tyear  + '*.EPH >> ' + zspace
-        os.system(cmd)
+        try:
+            os.system(cmd)
+        except:
+            pass
     else:
         cmd = 'ls /dsops/GOT/aux/DEPH.dir/DE' + tyear  + '*.EPH >  ' + zspace
-        os.system(cmd)
+        try:
+            os.system(cmd)
+        except:
+            pass
 
-    f     = open(zspace, 'r')
-    cdata = [line.strip() for line in f.readlines()]
-    f.close()
+    try:
+        f     = open(zspace, 'r')
+        cdata = [line.strip() for line in f.readlines()]
+        f.close()
+    except:
+        cdata = []
+
     mcf.rm_file(zspace)
 
     return cdata
